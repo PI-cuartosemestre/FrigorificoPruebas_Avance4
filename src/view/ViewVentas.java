@@ -115,8 +115,6 @@ public class ViewVentas extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         txtfecha = new javax.swing.JTextField();
-        txtcantidad1 = new javax.swing.JTextField();
-        txtcantidad2 = new javax.swing.JTextField();
         txttotal = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         txtIva = new javax.swing.JTextField();
@@ -130,6 +128,7 @@ public class ViewVentas extends javax.swing.JFrame {
         txtusu = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         btnClose = new javax.swing.JButton();
+        lblCantidadVenta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Generar Ventas");
@@ -415,6 +414,7 @@ public class ViewVentas extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addGap(2, 2, 2)
                         .addComponent(txtserie, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
                         .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26))
         );
@@ -464,14 +464,6 @@ public class ViewVentas extends javax.swing.JFrame {
         );
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 260, 30));
-
-        txtcantidad1.setText("2");
-        txtcantidad1.setToolTipText("");
-        jPanel3.add(txtcantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, 180, -1));
-
-        txtcantidad2.setText("2");
-        txtcantidad2.setToolTipText("");
-        jPanel3.add(txtcantidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, 180, -1));
 
         txttotal.setEditable(false);
         txttotal.setBackground(new java.awt.Color(250, 239, 215));
@@ -582,6 +574,9 @@ public class ViewVentas extends javax.swing.JFrame {
         });
         jPanel3.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 0, 40, -1));
 
+        lblCantidadVenta.setForeground(new java.awt.Color(250, 239, 215));
+        jPanel3.add(lblCantidadVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 290, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -646,53 +641,70 @@ public class ViewVentas extends javax.swing.JFrame {
 
     private void txtcantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantidadKeyTyped
 
-        //char c = evt.getKeyChar();
-        //if (c=='.' || c < '0' || c > '9') {
-        //evt.consume();
-        //}
+        String c = String.valueOf(evt.getKeyChar());
+        if (c.matches(".*[0-9].*")) {
+
+        } else if (c.contains(".")) {
+
+        } else {
+            evt.consume();
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_txtcantidadKeyTyped
 
     private void btnAgregarProductoVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoVentaActionPerformed
 
-        model = (DefaultTableModel) this.tbdetalle.getModel();
+        try {
+            if (Double.parseDouble(txtcantidad.getText()) < 0.01) {
+                JOptionPane.showMessageDialog(null, "Ingrese una cantidad valida");
+            } else if (Double.parseDouble(txtcantidad.getText()) > Double.parseDouble(lblCantidadVenta.getText())) {
+                 JOptionPane.showMessageDialog(this, "Cantidad mayor a la disponible en inventario", "Cantidad Invalida", JOptionPane.ERROR_MESSAGE);
+            } else {
+                model = (DefaultTableModel) this.tbdetalle.getModel();
 
-        model.addRow(new Object[filas]);
+                model.addRow(new Object[filas]);
 
-        for (int x = 0; x < this.tbdetalle.getColumnCount() - 1; x++) {
+                for (int x = 0; x < this.tbdetalle.getColumnCount() - 1; x++) {
 
-            model.setValueAt(this.txtcodigo.getText(), filas, 0);
-            model.setValueAt(this.txtdescripcion.getText(), filas, 1);
-            model.setValueAt(this.txtprecio.getText(), filas, 2);
-            model.setValueAt(this.txtcantidad.getText(), filas, 3);
-            model.setValueAt(this.txtimporte.getText(), filas, 4);
-        }
+                    model.setValueAt(this.txtcodigo.getText(), filas, 0);
+                    model.setValueAt(this.txtdescripcion.getText(), filas, 1);
+                    model.setValueAt(this.txtprecio.getText(), filas, 2);
+                    model.setValueAt(this.txtcantidad.getText(), filas, 3);
+                    model.setValueAt(this.txtimporte.getText(), filas, 4);
+                }
 
-        filas++;
+                filas++;
 
-        ///////////////////
-        txtsubtotal.setText("0");
-        rowNumber = tbdetalle.getRowCount();
+                ///////////////////
+                txtsubtotal.setText("0");
+                rowNumber = tbdetalle.getRowCount();
 
-        int c = 0;
+                int c = 0;
 
-        do
+                do
 
         try {
-            int f = c++;
+                    int f = c++;
 
-            double n1 = Double.parseDouble(tbdetalle.getValueAt(f, 4).toString());
-            String nu = txtsubtotal.getText();
-            int nu2 = Integer.parseInt(nu);
-            double re = n1 + nu2;
-            txtsubtotal.setText(String.valueOf(re));
+                    double n1 = Double.parseDouble(tbdetalle.getValueAt(f, 4).toString());
+                    String nu = txtsubtotal.getText();
+                    int nu2 = Integer.parseInt(nu);
+                    double re = n1 + nu2;
+                    txtsubtotal.setText(String.valueOf(re));
 
-            totales();
+                    totales();
 
-        } catch (Exception e) {
-        } while (c < rowNumber);
+                } catch (Exception e) {
+                } while (c < rowNumber);
 
-        jButton1.setEnabled(true);
+                jButton1.setEnabled(true);
+            }
+        } catch (NumberFormatException nE) {
+            JOptionPane.showMessageDialog(null, "Ingrese una cantidad valida");
+        }
+
+        //}
+
     }//GEN-LAST:event_btnAgregarProductoVentaActionPerformed
 
     private void limpiar() {
@@ -822,7 +834,7 @@ public class ViewVentas extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         if (txtcodcliente.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese los Datos", "Aviso", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione un cliente en el boton '+' ", "Aviso", JOptionPane.ERROR_MESSAGE);
 
         } else if (txtsubtotal.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese los Datos", "Aviso", JOptionPane.ERROR_MESSAGE);
@@ -1058,12 +1070,11 @@ public class ViewVentas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    public static javax.swing.JLabel lblCantidadVenta;
     public static javax.swing.JTable tbdetalle;
     public static javax.swing.JTextField txtIva;
     public static javax.swing.JTextField txtapellidos;
     public static javax.swing.JTextField txtcantidad;
-    public static javax.swing.JTextField txtcantidad1;
-    public static javax.swing.JTextField txtcantidad2;
     public static javax.swing.JTextField txtcategoria;
     public static javax.swing.JTextField txtcodcliente;
     public static javax.swing.JTextField txtcodigo;

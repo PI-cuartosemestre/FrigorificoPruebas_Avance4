@@ -158,11 +158,13 @@ public class View_Consultar_Productos_Ventas extends javax.swing.JFrame {
 
         int fila = listado.rowAtPoint(evt.getPoint());
 
-        ViewVentas.txtcodigo.setText(listado.getValueAt(fila, 0).toString());
+        ViewVentas.txtcodigo.setText(listado.getValueAt(fila, 11).toString());
 
         ViewVentas.txtdescripcion.setText(listado.getValueAt(fila, 1).toString());
 
         ViewVentas.txtprecio.setText(listado.getValueAt(fila, 3).toString());
+        
+        ViewVentas.lblCantidadVenta.setText(listado.getValueAt(fila, 5).toString());
 
         ViewVentas.txtcategoria.setText(listado.getValueAt(fila, 6).toString());
 

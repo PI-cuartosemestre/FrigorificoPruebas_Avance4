@@ -574,7 +574,6 @@ public class ViewCompras extends javax.swing.JFrame {
         X.setVisible(true);
 
         txtcantidad.setEnabled(true);
-
         btnAgregarProductoCompra.setEnabled(true);
 
         // TODO add your handling code here:
@@ -660,45 +659,52 @@ public class ViewCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_txtcantidadKeyTyped
 
     private void btnAgregarProductoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoCompraActionPerformed
+        try {
+            if (Double.parseDouble(txtcantidad.getText()) < 0.01) {
+                JOptionPane.showMessageDialog(null, "Ingrese una cantidad valida");
+            } else {
+                model = (DefaultTableModel) this.tbdetalle.getModel();
 
-        model = (DefaultTableModel) this.tbdetalle.getModel();
+                model.addRow(new Object[filas]);
 
-        model.addRow(new Object[filas]);
+                for (int x = 0; x < this.tbdetalle.getColumnCount() - 1; x++) {
 
-        for (int x = 0; x < this.tbdetalle.getColumnCount() - 1; x++) {
+                    model.setValueAt(this.txtcodigo.getText(), filas, 0);
+                    model.setValueAt(this.txtdescripcion.getText(), filas, 1);
+                    model.setValueAt(this.txtprecio.getText(), filas, 2);
+                    model.setValueAt(this.txtcantidad.getText(), filas, 3);
+                    model.setValueAt(this.txtimporte.getText(), filas, 4);
+                }
 
-            model.setValueAt(this.txtcodigo.getText(), filas, 0);
-            model.setValueAt(this.txtdescripcion.getText(), filas, 1);
-            model.setValueAt(this.txtprecio.getText(), filas, 2);
-            model.setValueAt(this.txtcantidad.getText(), filas, 3);
-            model.setValueAt(this.txtimporte.getText(), filas, 4);
-        }
+                filas++;
 
-        filas++;
+                ///////////////////
+                txtTotal.setText("0");
+                rowNumber = tbdetalle.getRowCount();
 
-        ///////////////////
-        txtTotal.setText("0");
-        rowNumber = tbdetalle.getRowCount();
+                int c = 0;
 
-        int c = 0;
-
-        do
+                do
 
         try {
-            int f = c++;
+                    int f = c++;
 
-            double n1 = Double.parseDouble(tbdetalle.getValueAt(f, 4).toString());
-            String nu = txtTotal.getText();
-            int nu2 = Integer.parseInt(nu);
-            double re = n1 + nu2;
-            txtTotal.setText(String.valueOf(re));
+                    double n1 = Double.parseDouble(tbdetalle.getValueAt(f, 4).toString());
+                    String nu = txtTotal.getText();
+                    int nu2 = Integer.parseInt(nu);
+                    double re = n1 + nu2;
+                    txtTotal.setText(String.valueOf(re));
 
-            totales();
+                    totales();
 
-        } catch (Exception e) {
-        } while (c < rowNumber);
+                } catch (Exception e) {
+                } while (c < rowNumber);
 
-        jButton1.setEnabled(true);
+                jButton1.setEnabled(true);
+            }
+        } catch (NumberFormatException nE) {
+            JOptionPane.showMessageDialog(null, "Ingrese una cantidad valida");
+        }
     }//GEN-LAST:event_btnAgregarProductoCompraActionPerformed
 
     private void limpiar() {
@@ -795,7 +801,7 @@ public class ViewCompras extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         if (txtcodempleado.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese los Datos", "Aviso", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione un empleado en el boton '+'", "Aviso", JOptionPane.ERROR_MESSAGE);
 
         } else if (txtTotal.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese los Datos", "Aviso", JOptionPane.ERROR_MESSAGE);
@@ -812,7 +818,7 @@ public class ViewCompras extends javax.swing.JFrame {
 
             v.setCodigoCompra(Integer.parseInt(txtid.getText()));
 
-            v.setNumero(txtcodempleado.getText());
+            v.setCodEmpleado(Integer.parseInt(txtcodempleado.getText()));
 
             v.setFecha(txtfecha.getText());
 
@@ -868,16 +874,16 @@ public class ViewCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQuitarProductoCompraActionPerformed
 
     private void btnQuitarProductoCompraMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuitarProductoCompraMouseExited
-        if (btnQuitarProductoCompra.isEnabled()){
+        if (btnQuitarProductoCompra.isEnabled()) {
             Icon image = new ImageIcon("src/Images/imgRemoveOff.png");
-            btnQuitarProductoCompra.setIcon(image);  
+            btnQuitarProductoCompra.setIcon(image);
         }
     }//GEN-LAST:event_btnQuitarProductoCompraMouseExited
 
     private void btnQuitarProductoCompraMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuitarProductoCompraMouseMoved
-        if (btnQuitarProductoCompra.isEnabled()){
+        if (btnQuitarProductoCompra.isEnabled()) {
             Icon image = new ImageIcon("src/Images/imgRemoveOn.png");
-            btnQuitarProductoCompra.setIcon(image);  
+            btnQuitarProductoCompra.setIcon(image);
         }
     }//GEN-LAST:event_btnQuitarProductoCompraMouseMoved
 
@@ -896,7 +902,7 @@ public class ViewCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnConsultarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsultarMouseExited
-       Icon image = new ImageIcon("src/Images/imgAddOff.png");
+        Icon image = new ImageIcon("src/Images/imgAddOff.png");
         btnConsultar.setIcon(image);
     }//GEN-LAST:event_btnConsultarMouseExited
 

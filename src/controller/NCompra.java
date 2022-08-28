@@ -14,141 +14,108 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author star
  */
 public class NCompra {
-    
-       private connection mysql = new connection();
+
+    private connection mysql = new connection();
     private Connection connect = mysql.Conect();
     private String sql;
 
-    
-    public boolean insertar (DAOcompras v) {
-    
-    sql= " insert into compras (codigocompras,codigoempl,fecha,total) values (?,?,?,?)";
-    
-    try {
-        
-        
-            
-            
-        PreparedStatement pst = connect.prepareStatement(sql);
-        
-          pst.setInt(1, v.getCodigoCompra());
-          
-          pst.setString(2, v.getNumero());
-          
-          pst.setString (3, v.getFecha());
-            
-        
-              
-          pst.setString (4, v.getTotal());
-     
-          
-  
-         
-          
-          
-        
-        int n = pst.executeUpdate ();        
-        if (n != 0) {       
-        return  true ;        
-         } else {   
-        return  false ;      
-      }
-  } catch (Exception e)  {
+    public boolean insertar(DAOcompras v) {
 
-JOptionPane.showMessageDialog(null,e);
+        sql = " insert into compras (codigocompras,codigoempl,fecha,total) values (?,?,?,?)";
 
-      return false;
+        try {
 
-          } 
-       
-        
-      }   
-         
+            PreparedStatement pst = connect.prepareStatement(sql);
 
-    
-        
-           
-    public boolean detalle (DAOcompras  v) {
-    
-    sql= " insert into comprasdetalle (codigocompras,id_inventario,cantidad,valor_unitario,total) values (?,?,?,?,?)";
-    
-    try {
-        
-       PreparedStatement pst = connect.prepareStatement(sql);
-       
-       
-           pst.setInt(1, v.getCodigoCompra());
-          
-          pst.setString (2, v.getInventario());
-          pst.setString (3, v.getCantidad());
-            
-               pst.setString (4, v.getValor_unitario());
-               
+            pst.setInt(1, v.getCodigoCompra());
 
-           
-              pst.setString(5, v.getTotal());
-              
-         
-          
-          
-        
-        int n = pst.executeUpdate ();        
-        if (n != 0) {       
-        return  true ;        
-         } else {   
-        return  false ;      
-      }
-  } catch (Exception e)  {
+            pst.setInt(2, v.getCodEmpleado());
 
-JOptionPane.showMessageDialog(null,e);
+            pst.setString(3, v.getFecha());
 
-      return false;
+            pst.setString(4, v.getTotal());
 
-          } 
-       
-        
-      }   
-         
+            int n = pst.executeUpdate();
+            if (n != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
 
-       
-     ///************************----------------------------------------
+            JOptionPane.showMessageDialog(null, e);
 
-    public String Autogenerar(){
-        
-        String  d="";
-         
-     
+            return false;
 
-    PreparedStatement  ps;
-    
-    ResultSet rs;
-       sql="select  max(CODIGOCOMPRAS) from COMPRAS";
+        }
 
-     try {
-
-   PreparedStatement pst = connect.prepareStatement(sql);
-          
-
-            rs= pst.executeQuery();
-
-           while  (rs.next ()) {
-    
-            d=rs.getString(1);
-           }
-
-  } catch (Exception e)   {
-       
-        
-}  
-    return  d;     
-   
     }
-    
-    
-    
+
+    public boolean detalle(DAOcompras v) {
+
+        sql = " insert into comprasdetalle (codigocompras,id_inventario,cantidad,valor_unitario,total) values (?,?,?,?,?)";
+
+        try {
+
+            PreparedStatement pst = connect.prepareStatement(sql);
+
+            pst.setInt(1, v.getCodigoCompra());
+
+            pst.setString(2, v.getInventario());
+            pst.setString(3, v.getCantidad());
+
+            pst.setString(4, v.getValor_unitario());
+
+            pst.setString(5, v.getTotal());
+
+            int n = pst.executeUpdate();
+            if (n != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e);
+
+            return false;
+
+        }
+
+    }
+
+    ///************************----------------------------------------
+    public String Autogenerar() {
+
+        String d = "";
+
+        PreparedStatement ps;
+
+        ResultSet rs;
+        sql = "select  max(CODIGOCOMPRAS) from COMPRAS";
+
+        try {
+
+            PreparedStatement pst = connect.prepareStatement(sql);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                d = rs.getString(1);
+            }
+
+        } catch (Exception e) {
+
+        }
+        return d;
+
+    }
+
 }

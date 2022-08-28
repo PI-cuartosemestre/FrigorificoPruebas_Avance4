@@ -61,5 +61,34 @@ public class NUser {
         }
 
     }
+    
+    public boolean insertUser(DAOUser user) {
+
+        sqlQuery = "INSERT INTO usuarios VALUES (?, ?, ?, AES_ENCRYPT(?,'key'));";
+
+        try {
+
+            PreparedStatement pst = connect.prepareStatement(sqlQuery);
+           
+            pst.setInt(1, user.getCode());
+            pst.setString(2, user.getCharge());
+            pst.setString(3, user.getUser());
+            pst.setString(4, user.getPass());
+
+            int n = pst.executeUpdate();
+            if (n != 0) {
+                return true;
+            } else {
+                return false;
+                
+            }
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e);
+
+            return false;
+
+        }
+    }
 
 }

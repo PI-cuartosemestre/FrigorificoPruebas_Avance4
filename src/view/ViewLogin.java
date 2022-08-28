@@ -105,18 +105,17 @@ public class ViewLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 
         /* VALIDADO EL USUARIO */
-        NUser us = new NUser();
-        DAOUser login = new DAOUser();      
+        NUser userController = new NUser();
+        DAOUser userLogin = new DAOUser();      
         String pass = new String(txtPass.getPassword());
         
         /* VALIDAR CAJA TEXTOS */
         if (!txtUser.getText().equals("") && !pass.equals("")) {
-            login.setUser(txtUser.getText());
-            login.setPass(txtPass.getText());
+            userLogin.setUser(txtUser.getText());
+            userLogin.setPass(txtPass.getText());
 
-            if (us.login(login)) {
-                ViewPrincipalMenu x = new ViewPrincipalMenu(login);
-
+            if (userController.login(userLogin)) {
+                ViewPrincipalMenu x = new ViewPrincipalMenu(userLogin);
                 x.setVisible(true);
 
                 dispose();

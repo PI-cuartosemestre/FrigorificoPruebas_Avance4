@@ -18,6 +18,7 @@ import controller.NClient;
 import controller.NEmployee;
 import controller.NProduct;
 import controller.NProvider;
+import controller.NUser;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Graphics;
@@ -60,13 +61,16 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
     private boolean buttonProviderStyle = false;
     private boolean buttonEmployeeStyle = false;
     private boolean buttonReportStyle = false;
+    
     DAOUser ingresar;
     lateralPanelBack back = new lateralPanelBack();
+    boolean falseEliminarCliente;
 
     public ViewPrincipalMenu() {
         this.setContentPane(back);
         initComponents();
         this.setLocationRelativeTo(null);
+        btnRegistrarRegistro.setEnabled(false);
         //mostrar("");
 
     }
@@ -75,7 +79,6 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
         initComponents();
 
         this.setLocationRelativeTo(null);
-
         this.ingresar = ingresar;
 
         if (ingresar.getCharge().contains("Administrador")) {
@@ -83,20 +86,21 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
             Icon image = new ImageIcon("src/Images/imgAdmin.png");
             lblPerfilPhoto.setIcon(image);
             lblNameUser.setText("ADMINISTRADOR");
+            falseEliminarCliente = true;
 
-        } else if (ingresar.getCharge().contains("")) {
+        } else if (ingresar.getCharge().contains("Normal")) {
 
             Icon image = new ImageIcon("src/Images/imgUser.png");
             lblPerfilPhoto.setIcon(image);
-            lblNameUser.setText("EMPLEADO");
+            lblNameUser.setText("Usuario Normal");
+            
+            //btnEliminarCliente.setEnabled(false);
+            falseEliminarCliente = false;
+            btnProductos.setEnabled(false);
+            btnProveedores.setEnabled(false);
+            btnEmpleados.setEnabled(false);
+            btnIrRegistro.setEnabled(false);
 
-            btnClientes.enable(false);
-            btnProveedores.enable(false);
-            btnProductos.enable(false);
-            btnVentas.enable(false);
-            btnCompras.enable(false);
-            //Recordar USUARIOS
-            btnEmpleados.enable(false);
         }
 
     }
@@ -297,7 +301,14 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
         txtContrasenaRegistro = new javax.swing.JPasswordField();
         btnRegistrarRegistro = new javax.swing.JButton();
         btnConsultar = new javax.swing.JButton();
-        lblEmpleado = new javax.swing.JLabel();
+        cmbTipoUsuarioRegistro = new javax.swing.JComboBox<>();
+        txtMensaje3 = new javax.swing.JLabel();
+        txtMensaje2 = new javax.swing.JLabel();
+        txtMensaje = new javax.swing.JLabel();
+        lblCedulaRegistro = new javax.swing.JLabel();
+        lblNombreRegistro = new javax.swing.JLabel();
+        lblApellidosRegistro = new javax.swing.JLabel();
+        lblCodigoEmpleadoRegistro = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -541,11 +552,11 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
         getContentPane().add(lblNameUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 20, 140, 30));
 
         lblLogoMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/imgLogoDelavegaMenu.png"))); // NOI18N
-        getContentPane().add(lblLogoMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 230, 70));
+        getContentPane().add(lblLogoMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, 230, 20));
 
         jLabel11.setBackground(new java.awt.Color(190, 171, 129));
         jLabel11.setOpaque(true);
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 1080, 70));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 1080, 30));
 
         pnlHome.setBackground(new java.awt.Color(250, 239, 215));
         pnlHome.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1780,23 +1791,52 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
         jPanel5.add(txtTipoUsuarioRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 230, 130, 30));
 
         txtNombreUsuarioRegistro.setBorder(null);
+        txtNombreUsuarioRegistro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombreUsuarioRegistroKeyReleased(evt);
+            }
+        });
         jPanel5.add(txtNombreUsuarioRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 292, 250, 20));
 
         txtRepetirContrasenaRegistro.setBorder(null);
+        txtRepetirContrasenaRegistro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtRepetirContrasenaRegistroKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRepetirContrasenaRegistroKeyTyped(evt);
+            }
+        });
         jPanel5.add(txtRepetirContrasenaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 420, 250, 20));
 
         txtContrasenaRegistro.setBorder(null);
+        txtContrasenaRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtContrasenaRegistroMouseClicked(evt);
+            }
+        });
+        txtContrasenaRegistro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtContrasenaRegistroKeyReleased(evt);
+            }
+        });
         jPanel5.add(txtContrasenaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 352, 250, 30));
 
         btnRegistrarRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/imgRegistrarNuevoOff.png"))); // NOI18N
         btnRegistrarRegistro.setBorderPainted(false);
         btnRegistrarRegistro.setContentAreaFilled(false);
+        btnRegistrarRegistro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRegistrarRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnRegistrarRegistroMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnRegistrarRegistroMouseExited(evt);
+            }
+        });
+        btnRegistrarRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarRegistroActionPerformed(evt);
             }
         });
         jPanel5.add(btnRegistrarRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 470, 320, 60));
@@ -1821,8 +1861,43 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
         });
         jPanel5.add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 40, 40));
 
-        lblEmpleado.setText("Empleado");
-        jPanel5.add(lblEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, -1));
+        cmbTipoUsuarioRegistro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Normal", "Administrador" }));
+        cmbTipoUsuarioRegistro.setBorder(null);
+        cmbTipoUsuarioRegistro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmbTipoUsuarioRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoUsuarioRegistroActionPerformed(evt);
+            }
+        });
+        jPanel5.add(cmbTipoUsuarioRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 230, 110, 30));
+
+        txtMensaje3.setForeground(new java.awt.Color(153, 0, 51));
+        txtMensaje3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        txtMensaje3.setToolTipText("");
+        jPanel5.add(txtMensaje3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 450, 370, 40));
+
+        txtMensaje2.setForeground(new java.awt.Color(153, 0, 51));
+        txtMensaje2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        txtMensaje2.setToolTipText("");
+        jPanel5.add(txtMensaje2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 400, 370, 40));
+
+        txtMensaje.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMensaje.setForeground(new java.awt.Color(153, 0, 51));
+        txtMensaje.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        txtMensaje.setToolTipText("");
+        jPanel5.add(txtMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 350, 310, 40));
+
+        lblCedulaRegistro.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel5.add(lblCedulaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 200, 20));
+
+        lblNombreRegistro.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel5.add(lblNombreRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 196, 200, 20));
+
+        lblApellidosRegistro.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel5.add(lblApellidosRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 200, 20));
+
+        lblCodigoEmpleadoRegistro.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel5.add(lblCodigoEmpleadoRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 80, 30));
 
         jLabel48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/imgRegisterBackGround.png"))); // NOI18N
         jPanel5.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 1030, 550));
@@ -1844,6 +1919,11 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
             modelo = f.consult(BuscarDato);
             // modelo = clientController.showClient (BuscarDato);
             tabListadoCliente.setModel(modelo);
+            if(falseEliminarCliente == false){
+                btnEliminarCliente.setEnabled(false);
+            }else{
+                btnEliminarCliente.setEnabled(true);
+            }
 
         } catch (Exception e) {
 
@@ -2105,7 +2185,11 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
 
         btnGuardarCliente.setEnabled(false);
         btnEditarCliente.setEnabled(true);
+        if(falseEliminarCliente == true){
         btnEliminarCliente.setEnabled(true);
+        }else{
+            btnEliminarCliente.setEnabled(false);
+        }
     }
 
     private void cleanClient() {
@@ -3451,8 +3535,10 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarRegistroMouseExited
 
     private void btnRegistrarRegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarRegistroMouseEntered
+        if(btnRegistrarRegistro.isEnabled()){
         Icon image = new ImageIcon("src/Images/imgRegistrarNuevoOn.png");
         btnRegistrarRegistro.setIcon(image);
+        }
     }//GEN-LAST:event_btnRegistrarRegistroMouseEntered
 
     private void btnIrRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrRegistroActionPerformed
@@ -3471,12 +3557,105 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
 
-        View_Consultar_Empleado X = new View_Consultar_Empleado();
+        View_Consultar_Empleado_Registro X = new View_Consultar_Empleado_Registro();
         X.setVisible(true);
-
+      
         // TODO add your handling code here:
     }//GEN-LAST:event_btnConsultarActionPerformed
 
+    private void cmbTipoUsuarioRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoUsuarioRegistroActionPerformed
+        if(cmbTipoUsuarioRegistro.getSelectedItem().toString().equals("Normal")){
+            txtTipoUsuarioRegistro.setText("Normal");
+        } else if (cmbTipoUsuarioRegistro.getSelectedItem().toString().equals("Administrador")){
+            txtTipoUsuarioRegistro.setText("Administrador");
+        } else if (cmbTipoUsuarioRegistro.getSelectedItem().toString().equals("Seleccionar")){
+            txtTipoUsuarioRegistro.setText("");
+        }
+        enableRegisterButton();
+    }//GEN-LAST:event_cmbTipoUsuarioRegistroActionPerformed
+
+    private void txtRepetirContrasenaRegistroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRepetirContrasenaRegistroKeyTyped
+        
+    }//GEN-LAST:event_txtRepetirContrasenaRegistroKeyTyped
+
+    private void txtRepetirContrasenaRegistroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRepetirContrasenaRegistroKeyReleased
+        if(!txtContrasenaRegistro.getText().equals(txtRepetirContrasenaRegistro.getText())){
+            txtMensaje.setText("*Las contraseñas no coinciden");
+        }else{           
+                txtMensaje.setText("");                        
+        }
+        enableRegisterButton();
+    }//GEN-LAST:event_txtRepetirContrasenaRegistroKeyReleased
+
+    private void txtContrasenaRegistroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContrasenaRegistroKeyReleased
+       if(txtContrasenaRegistro.getText().length() < 8){
+            txtMensaje2.setText("La contraseña debe ser igual o mayor a 8 caracteres");
+        } else if (!txtContrasenaRegistro.getText().matches(".*[0-9].*")){
+            txtMensaje2.setText("La contraseña debe tener al menos un numero");
+        } else if (txtContrasenaRegistro.getText().toLowerCase().equals(txtContrasenaRegistro.getText())){
+            txtMensaje2.setText("La contraseña debe tener al menos una letra mayúscula.");
+        } else {
+                txtMensaje2.setText("");               
+            }
+       enableRegisterButton();
+    }//GEN-LAST:event_txtContrasenaRegistroKeyReleased
+
+    private void btnRegistrarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarRegistroActionPerformed
+       if(lblCedulaRegistro.getText().equals("")){
+           JOptionPane.showMessageDialog(null, "Seleccione un empleado en el boton '+'");
+       } else {
+           DAOUser user = new DAOUser();
+           NUser userController = new NUser();
+           
+           user.setCode(Integer.parseInt(lblCodigoEmpleadoRegistro.getText()));
+           user.setCharge(txtTipoUsuarioRegistro.getText());
+           user.setUser(txtNombreUsuarioRegistro.getText());
+           user.setPass(txtRepetirContrasenaRegistro.getText());
+           
+           userController.insertUser(user);
+           JOptionPane.showMessageDialog(this, "Usuario "+txtTipoUsuarioRegistro.getText().toUpperCase()+" ingresado correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+           cleanRegister();
+       }
+    }//GEN-LAST:event_btnRegistrarRegistroActionPerformed
+
+    private void txtNombreUsuarioRegistroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUsuarioRegistroKeyReleased
+        if(txtNombreUsuarioRegistro.getText().isEmpty() || txtNombreUsuarioRegistro.getText().isBlank()){
+                txtMensaje3.setText("*Ingrese un nombre de usuario");
+        } else if(txtTipoUsuarioRegistro.getText().isEmpty()){
+                txtMensaje3.setText("*Seleccione el tipo de usuario");
+            } else if (txtNombreUsuarioRegistro.getText().length() < 3){
+                txtMensaje3.setText("*Caracteres insuficientes para nombre de usuario");
+            } else {
+                txtMensaje3.setText("");
+            }
+        enableRegisterButton();
+    }//GEN-LAST:event_txtNombreUsuarioRegistroKeyReleased
+
+    private void txtContrasenaRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtContrasenaRegistroMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtContrasenaRegistroMouseClicked
+
+    private void enableRegisterButton(){
+    if (!txtNombreUsuarioRegistro.getText().isEmpty() && !txtTipoUsuarioRegistro.getText().isEmpty() 
+            && !txtContrasenaRegistro.getText().isEmpty() && !txtRepetirContrasenaRegistro.getText().isEmpty() 
+            && txtMensaje.getText().isEmpty() && txtMensaje2.getText().isEmpty() && txtMensaje3.getText().isEmpty()){
+        btnRegistrarRegistro.setEnabled(true);
+    } else {
+         btnRegistrarRegistro.setEnabled(false);
+    }          
+}
+    private void cleanRegister(){
+        lblCedulaRegistro.setText("");
+        lblNombreRegistro.setText("");
+        lblApellidosRegistro.setText("");
+        lblCodigoEmpleadoRegistro.setText("");
+        txtTipoUsuarioRegistro.setText("");
+        cmbTipoUsuarioRegistro.setSelectedItem(String.valueOf("Seleccionar"));
+        txtNombreUsuarioRegistro.setText("");
+        txtContrasenaRegistro.setText("");
+        txtRepetirContrasenaRegistro.setText("");
+        enableRegisterButton();
+    }
     private void enableEmployee() {
 
         btnGuardarEmpleado.setEnabled(true);
@@ -3616,6 +3795,7 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbTipoCliente;
     private javax.swing.JComboBox<String> cmbTipoEmpleado;
     private javax.swing.JComboBox<String> cmbTipoProveedor;
+    private javax.swing.JComboBox<String> cmbTipoUsuarioRegistro;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -3683,16 +3863,19 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jtpContenedor;
     private javax.swing.JTabbedPane jtpContenedorFotos;
     private javax.swing.JTabbedPane jtpTutoriales;
+    public static javax.swing.JLabel lblApellidosRegistro;
     private javax.swing.JLabel lblBuscarCliente;
     private javax.swing.JLabel lblBuscarProducto;
     private javax.swing.JLabel lblBuscarProveedor;
     private javax.swing.JLabel lblBusquedaEmpleado;
+    public static javax.swing.JLabel lblCedulaRegistro;
     private javax.swing.JLabel lblCentralPanel;
     private javax.swing.JLabel lblCentralPanel1;
     private javax.swing.JLabel lblCentralPanel2;
-    private javax.swing.JLabel lblEmpleado;
+    public static javax.swing.JLabel lblCodigoEmpleadoRegistro;
     private javax.swing.JLabel lblLogoMenu;
     private javax.swing.JLabel lblNameUser;
+    public static javax.swing.JLabel lblNombreRegistro;
     private javax.swing.JLabel lblPerfilPhoto;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblTipo1;
@@ -3741,6 +3924,9 @@ public class ViewPrincipalMenu extends javax.swing.JFrame {
     private javax.swing.JTextField txtEstadoProducto;
     private javax.swing.JLabel txtIdPersonaProveedor;
     private javax.swing.JLabel txtIdProveedorProveedor;
+    private javax.swing.JLabel txtMensaje;
+    private javax.swing.JLabel txtMensaje2;
+    private javax.swing.JLabel txtMensaje3;
     private javax.swing.JTextField txtNombreProducto;
     private javax.swing.JTextField txtNombreUsuarioRegistro;
     private javax.swing.JTextField txtNombresCliente;

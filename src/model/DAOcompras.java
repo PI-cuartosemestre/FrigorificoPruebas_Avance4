@@ -10,29 +10,23 @@ package model;
  * @author star
  */
 public class DAOcompras {
-    
-    
-      private int CodigoCompra;
 
-   
-    private String Numero;
+    private int CodigoCompra;
+    private int codEmpleado;
     private String Fecha;
- 
-        private String Total;
-
-    
+    private String Total;
     private String inventario;
     private String cantidad;
     private String valor_unitario;
     private String importe;
-    
-     public DAOcompras() {
 
-             }
+    public DAOcompras() {
 
-    public DAOcompras(int CodigoCompra, String Numero, String Fecha, String Total, String inventario, String cantidad, String valor_unitario, String importe) {
+    }
+
+    public DAOcompras(int CodigoCompra, int codEmpleado, String Fecha, String Total, String inventario, String cantidad, String valor_unitario, String importe) {
         this.CodigoCompra = CodigoCompra;
-        this.Numero = Numero;
+        this.codEmpleado = codEmpleado;
         this.Fecha = Fecha;
         this.Total = Total;
         this.inventario = inventario;
@@ -41,20 +35,13 @@ public class DAOcompras {
         this.importe = importe;
     }
 
+
     public int getCodigoCompra() {
         return CodigoCompra;
     }
 
     public void setCodigoCompra(int CodigoCompra) {
         this.CodigoCompra = CodigoCompra;
-    }
-
-    public String getNumero() {
-        return Numero;
-    }
-
-    public void setNumero(String Numero) {
-        this.Numero = Numero;
     }
 
     public String getFecha() {
@@ -105,7 +92,14 @@ public class DAOcompras {
         this.importe = importe;
     }
 
-  
-     
-     
+    public int getCodEmpleado() {
+        return codEmpleado;
+    }
+
+    public void setCodEmpleado(int codEmpleado) {
+        this.codEmpleado = codEmpleado;
+    }
+    
+    
+
 }

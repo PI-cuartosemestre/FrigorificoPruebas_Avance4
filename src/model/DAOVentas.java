@@ -10,9 +10,22 @@ package model;
  * @author star
  */
 public class DAOVentas {
-    
-    
-      private int CodigoVenta;
+
+    private int CodigoVenta;
+    private String Numero;
+    private String Fecha;
+    private String SubTotal;
+    private String Iva;
+    private String Total;
+    private String Pago;
+    private String inventario;
+    private String cantidad;
+    private String valor_unitario;
+    private String importe;
+
+    public DAOVentas() {
+
+    }
 
     public DAOVentas(int CodigoVenta, String Numero, String Fecha, String SubTotal, String Iva, String Total, String Pago, String inventario, String cantidad, String valor_unitario, String importe) {
         this.CodigoVenta = CodigoVenta;
@@ -27,21 +40,6 @@ public class DAOVentas {
         this.valor_unitario = valor_unitario;
         this.importe = importe;
     }
-    private String Numero;
-    private String Fecha;
-        private String SubTotal;
-    private String Iva;
-        private String Total;
-    private String Pago;
-    
-    private String inventario;
-    private String cantidad;
-    private String valor_unitario;
-    private String importe;
-    
-     public DAOVentas() {
-
-             }
 
     public int getCodigoVenta() {
         return CodigoVenta;
@@ -131,7 +129,4 @@ public class DAOVentas {
         this.importe = importe;
     }
 
-   
-     
-     
 }

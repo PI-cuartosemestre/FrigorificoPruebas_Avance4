@@ -14,153 +14,117 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author star
  */
 public class NVenta {
-    
-       private connection mysql = new connection();
+
+    private connection mysql = new connection();
     private Connection connect = mysql.Conect();
     private String sql;
 
-      private String sqlQuery;
+    private String sqlQuery;
     private String preQuery;
-    
-    
-    public boolean insertar (DAOVentas v) {
-    
-    sql= " insert into venta (codigoventa,cod_persona,fecha,subtotal,iva,total,codigopag) values (?,?,?,?,?,?,?)";
-    
-    try {
-        
-        
-            
-            
-        PreparedStatement pst = connect.prepareStatement(sql);
-        
-          pst.setInt(1, v.getCodigoVenta());
-          
-          pst.setString(2, v.getNumero());
-          
-          pst.setString (3, v.getFecha());
-            
-               pst.setString (4, v.getSubTotal());
-               
 
-           
-              pst.setString (5, v.getIva());
-              
-          pst.setString (6, v.getTotal());
-     
-          
-          
-            pst.setString (7, v.getPago());
-           
-         
-          
-          
-        
-        int n = pst.executeUpdate ();        
-        if (n != 0) {       
-        return  true ;        
-         } else {   
-        return  false ;      
-      }
-  } catch (Exception e)  {
+    public boolean insertar(DAOVentas v) {
 
-JOptionPane.showMessageDialog(null,e);
+        sql = " insert into venta (codigoventa,cod_persona,fecha,subtotal,iva,total,codigopag) values (?,?,?,?,?,?,?)";
 
-      return false;
+        try {
 
-          } 
-       
-        
-      }   
-         
+            PreparedStatement pst = connect.prepareStatement(sql);
 
-    
-        
-           
-    public boolean detalle (DAOVentas v) {
-    
-    sql= " insert into ventasdetalle (codigoventa,id_inventario,cantidad,valor_unitario,total) values (?,?,?,?,?)";
-    
-    try {
-        
-       PreparedStatement pst = connect.prepareStatement(sql);
-       
-       
-           pst.setInt(1, v.getCodigoVenta());
-          
-          pst.setString (2, v.getInventario());
-          pst.setString (3, v.getCantidad());
-            
-               pst.setString (4, v.getValor_unitario());
-               
+            pst.setInt(1, v.getCodigoVenta());
 
-           
-              pst.setString(5, v.getTotal());
-              
-         
-          
-          
-        
-        int n = pst.executeUpdate ();        
-        if (n != 0) {       
-        return  true ;        
-         } else {   
-        return  false ;      
-      }
-  } catch (Exception e)  {
+            pst.setString(2, v.getNumero());
 
-JOptionPane.showMessageDialog(null,e);
+            pst.setString(3, v.getFecha());
 
-      return false;
+            pst.setString(4, v.getSubTotal());
 
-          } 
-       
-        
-      }   
-         
+            pst.setString(5, v.getIva());
 
-       
-     ///************************----------------------------------------
+            pst.setString(6, v.getTotal());
 
-    public String Autogenerar(){
-        
-        String  d="";
-         
-     
+            pst.setString(7, v.getPago());
 
-    PreparedStatement  ps;
-    
-    ResultSet rs;
-       sql="select  max(CODIGOVENTA) from VENTA";
+            int n = pst.executeUpdate();
+            if (n != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
 
-     try {
+            JOptionPane.showMessageDialog(null, e);
 
-   PreparedStatement pst = connect.prepareStatement(sql);
-          
+            return false;
 
-            rs= pst.executeQuery();
+        }
 
-           while  (rs.next ()) {
-    
-            d=rs.getString(1);
-           }
-
-  } catch (Exception e)   {
-       
-        
-}  
-    return  d;     
-   
     }
-    
-    
-    
-        public DefaultTableModel consult(String search) {
+
+    public boolean detalle(DAOVentas v) {
+
+        sql = " insert into ventasdetalle (codigoventa,id_inventario,cantidad,valor_unitario,total) values (?,?,?,?,?)";
+
+        try {
+
+            PreparedStatement pst = connect.prepareStatement(sql);
+
+            pst.setInt(1, v.getCodigoVenta());
+            pst.setString(2, v.getInventario());
+            pst.setString(3, v.getCantidad());
+            pst.setString(4, v.getValor_unitario());
+            pst.setString(5, v.getTotal());
+
+            int n = pst.executeUpdate();
+            if (n != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e);
+
+            return false;
+
+        }
+
+    }
+
+    ///************************----------------------------------------
+    public String Autogenerar() {
+
+        String d = "";
+
+        PreparedStatement ps;
+
+        ResultSet rs;
+        sql = "select  max(CODIGOVENTA) from VENTA";
+
+        try {
+
+            PreparedStatement pst = connect.prepareStatement(sql);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                d = rs.getString(1);
+            }
+
+        } catch (Exception e) {
+
+        }
+        return d;
+
+    }
+
+    public DefaultTableModel consult(String search) {
 
         DefaultTableModel model;
 
@@ -179,13 +143,10 @@ JOptionPane.showMessageDialog(null,e);
             ResultSet rs = st.executeQuery(sqlQuery);
 
             while (rs.next()) {
-                
-      
+
                 records[0] = rs.getString("CODIGOPAG");
 
                 records[1] = rs.getString("TIPOPAGO");
-
-              
 
                 model.addRow(records);
             }
@@ -199,5 +160,5 @@ JOptionPane.showMessageDialog(null,e);
             return null;
         }
     }
-    
+
 }

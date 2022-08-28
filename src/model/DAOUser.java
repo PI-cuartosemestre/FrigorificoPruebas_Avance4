@@ -7,6 +7,7 @@ package model;
 
 public class DAOUser {       
     private int code;
+    private String cedulaEmpleado;
     private String user;
     private String pass;
     private String charge;
@@ -14,13 +15,13 @@ public class DAOUser {
     public DAOUser(){   
 }
 
-    public DAOUser(int code, String user, String pass, String charge) {
+    public DAOUser(int code, String cedulaEmpleado, String user, String pass, String charge) {
         this.code = code;
+        this.cedulaEmpleado = cedulaEmpleado;
         this.user = user;
         this.pass = pass;
         this.charge = charge;
     }
-
     public int getCode() {
         return code;
     }
@@ -47,6 +48,14 @@ public class DAOUser {
 
     public String getCharge() {
         return charge;
+    }
+
+    public String getCedulaEmpleado() {
+        return cedulaEmpleado;
+    }
+
+    public void setCedulaEmpleado(String cedulaEmpleado) {
+        this.cedulaEmpleado = cedulaEmpleado;
     }
 
     public void setCharge(String charge) {
